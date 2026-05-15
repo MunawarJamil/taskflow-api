@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from "express";
-import { ZodError } from "zod";
 import { Prisma } from "@prisma/client";
 
 import { ApiError } from "../utils/ApiError.js";
@@ -11,31 +10,27 @@ export const errorMiddleware = (
   res: Response,
   _next: NextFunction,
 ) => {
-  logger.error(error);
+  // Only log unexpected errors — operational errors are noise
+  if (!(error instanceof ApiError) || !error.isOperational) {
+    logger.error(error);
+  }
 
   // Custom API errors
   if (error instanceof ApiError) {
     return res.status(error.statusCode).json({
       success: false,
+      code: error.code,
       message: error.message,
+      ...(error.details ? { errors: error.details } : {}),
     });
   }
 
-  // Zod validation errors
-  if (error instanceof ZodError) {
-    return res.status(400).json({
-      success: false,
-      message: "Validation failed",
-      errors: error.flatten().fieldErrors,
-    });
-  }
-
-  //   Prisma known errors
+  // Prisma unique constraint — fallback if service doesn't catch it
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    // Unique constraint
     if (error.code === "P2002") {
       return res.status(409).json({
         success: false,
+        code: "ERR_CONFLICT",
         message: "Resource already exists",
       });
     }
@@ -44,6 +39,7 @@ export const errorMiddleware = (
   // Unknown server errors
   return res.status(500).json({
     success: false,
+    code: "ERR_INTERNAL",
     message: "Internal Server Error",
   });
 };
