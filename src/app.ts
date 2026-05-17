@@ -15,6 +15,10 @@ import {
   workspaceProjectRouter,
 } from "./modules/project/project.routes.js";
 import { projectTaskRouter, taskRouter } from "./modules/task/task.routes.js";
+import {
+  commentRouter,
+  taskCommentRouter,
+} from "./modules/comment/comment.routes.js";
 export const createApp = (): Application => {
   const app = express();
 
@@ -49,6 +53,8 @@ export const createApp = (): Application => {
 
   app.use("/api/v1/projects/:id/tasks", projectTaskRouter);
   app.use("/api/v1/tasks", taskRouter);
+  app.use("/api/v1/tasks/:id/comments", taskCommentRouter);
+  app.use("/api/v1/comments", commentRouter);
 
   app.use(notFound);
   app.use(errorMiddleware);
