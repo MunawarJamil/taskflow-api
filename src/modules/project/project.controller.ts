@@ -23,7 +23,7 @@ export const createProject = asyncHandler(
       req.body.description,
     );
 
-    sendCreated(res, project, "Project created successfully");
+    sendCreated(res, { project }, "Project created successfully");
   },
 );
 
@@ -31,7 +31,7 @@ export const getWorkspaceProjects = asyncHandler(
   async (req: Request<WorkspaceParams>, res: Response) => {
     const projects = await projectService.getWorkspaceProjects(req.params.id);
 
-    sendSuccess(res, projects, "Projects fetched successfully");
+    sendSuccess(res, { projects }, "Projects fetched successfully");
   },
 );
 
@@ -39,7 +39,7 @@ export const getProjectById = asyncHandler(
   async (req: Request<ProjectParams>, res: Response) => {
     const project = await projectService.getProjectById(req.params.id);
 
-    sendSuccess(res, project, "Project fetched successfully");
+    sendSuccess(res, { project }, "Project fetched successfully");
   },
 );
 export const updateProject = asyncHandler(
@@ -54,7 +54,7 @@ export const updateProject = asyncHandler(
       ...(description !== undefined && { description }),
     });
 
-    sendSuccess(res, project, "Project updated successfully");
+    sendSuccess(res, { project }, "Project updated successfully");
   },
 );
 

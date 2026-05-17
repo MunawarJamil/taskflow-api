@@ -22,7 +22,7 @@ export const createComment = asyncHandler(
       req.body.content
     );
 
-    sendCreated(res, comment, "Comment created successfully");
+    sendCreated(res, { comment }, "Comment created successfully");
   }
 );
 
@@ -30,7 +30,7 @@ export const getTaskComments = asyncHandler(
   async (req: Request<TaskParams>, res: Response) => {
     const comments = await commentService.getTaskComments(req.params.id);
 
-    sendSuccess(res, comments, "Comments fetched successfully");
+    sendSuccess(res, { comments }, "Comments fetched successfully");
   }
 );
 

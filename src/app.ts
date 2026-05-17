@@ -19,6 +19,10 @@ import {
   commentRouter,
   taskCommentRouter,
 } from "./modules/comment/comment.routes.js";
+
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./docs/swagger.js";
+
 export const createApp = (): Application => {
   const app = express();
 
@@ -44,7 +48,7 @@ export const createApp = (): Application => {
       }),
     );
   });
-
+  // ─── Routes ───────────────────────────────────────────────
   app.use("/api/v1/auth", authRoutes);
   app.use("/api/v1/workspaces", workspaceRoutes);
 
@@ -56,6 +60,10 @@ export const createApp = (): Application => {
   app.use("/api/v1/tasks/:id/comments", taskCommentRouter);
   app.use("/api/v1/comments", commentRouter);
 
+  // Swagger UI
+  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+  // 404 and error handling
   app.use(notFound);
   app.use(errorMiddleware);
   return app;

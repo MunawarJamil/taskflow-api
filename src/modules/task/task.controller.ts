@@ -40,7 +40,7 @@ export const createTask = asyncHandler(
       }
     );
 
-    sendCreated(res, task, "Task created successfully");
+    sendCreated(res, { task }, "Task created successfully");
   }
 );
 export const listTasks = asyncHandler(
@@ -48,7 +48,7 @@ export const listTasks = asyncHandler(
     const query = req.query as unknown as TaskQuery;
     const result = await taskService.listTasks(req.params.id, query);
 
-    sendSuccess(res, result.tasks, "Tasks fetched successfully", 200, result.meta);
+    sendSuccess(res, { tasks: result.tasks }, "Tasks fetched successfully", 200, result.meta);
   }
 );
 
@@ -58,7 +58,7 @@ export const getTaskById = asyncHandler(
     // but we call service for the full taskSelect shape with all relations
     const task = await taskService.getTaskById(req.params.id);
 
-    sendSuccess(res, task, "Task fetched successfully");
+    sendSuccess(res, { task }, "Task fetched successfully");
   }
 );
 
@@ -77,7 +77,7 @@ export const updateTask = asyncHandler(
       ...(req.body.dueDate !== undefined && { dueDate: req.body.dueDate }),
     });
 
-    sendSuccess(res, task, "Task updated successfully");
+    sendSuccess(res, { task }, "Task updated successfully");
   }
 );
 
@@ -101,6 +101,6 @@ export const assignTask = asyncHandler(
       req.membership!.workspaceId
     );
 
-    sendSuccess(res, task, "Task assigned successfully");
+    sendSuccess(res, { task }, "Task assigned successfully");
   }
 );

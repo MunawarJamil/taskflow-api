@@ -15,6 +15,8 @@ const taskSelect = {
   priority: true,
   dueDate: true,
   createdAt: true,
+  assigneeId: true,
+  createdById: true,
   project: {
     select: { id: true, name: true, workspaceId: true },
   },

@@ -31,7 +31,7 @@ export const createWorkspace = asyncHandler(
       name,
     );
 
-    sendCreated(res, workspace, "Workspace created successfully");
+    sendCreated(res, { workspace }, "Workspace created successfully");
   },
 );
 
@@ -39,7 +39,7 @@ export const getUserWorkspaces = asyncHandler(
   async (req: Request, res: Response) => {
     const workspaces = await workspaceService.getUserWorkspaces(req.user!.sub);
 
-    sendSuccess(res, workspaces, "Workspaces fetched successfully");
+    sendSuccess(res, { workspaces }, "Workspaces fetched successfully");
   },
 );
 
@@ -50,7 +50,7 @@ export const getWorkspaceById = asyncHandler(
       req.user!.sub,
     );
 
-    sendSuccess(res, workspace, "Workspace fetched successfully");
+    sendSuccess(res, { workspace }, "Workspace fetched successfully");
   },
 );
 
@@ -66,7 +66,7 @@ export const updateWorkspace = asyncHandler(
       name,
     );
 
-    sendSuccess(res, workspace, "Workspace updated successfully");
+    sendSuccess(res, { workspace }, "Workspace updated successfully");
   },
 );
 
@@ -95,7 +95,7 @@ export const inviteMember = asyncHandler(
       role,
     );
 
-    sendCreated(res, membership, "Member invited successfully");
+    sendCreated(res, { membership }, "Member invited successfully");
   },
 );
 
@@ -103,7 +103,7 @@ export const getWorkspaceMembers = asyncHandler(
   async (req: Request<WorkspaceParams>, res: Response) => {
     const members = await workspaceService.getWorkspaceMembers(req.params.id);
 
-    sendSuccess(res, members, "Members fetched successfully");
+    sendSuccess(res, { members }, "Members fetched successfully");
   },
 );
 
