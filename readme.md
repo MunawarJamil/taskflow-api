@@ -3,9 +3,9 @@
 A production-grade multi-tenant task management REST API built with 
 Node.js, TypeScript, Express, PostgreSQL, and Prisma.
 
-🔗 **Live API:** https://taskflow-api.up.railway.app
-📚 **API Docs:** https://taskflow-api.up.railway.app/docs
-🎥 **Walkthrough:** [2-min Loom video]
+🔗 **Live API:** Coming soon
+📚 **API Docs:**  Coming soon
+
 
 ## Why This Project
 
@@ -23,9 +23,9 @@ documentation, and Docker-based local development.
 - 💬 Comments on tasks
 - 🔍 Filtering, sorting, pagination on list endpoints
 - ⚡ Rate limiting and security headers
-- 📖 OpenAPI/Swagger documentation
+- 📖 Swagger documentation
 - 🐳 Dockerized for one-command local setup
-- ✅ Tests with Vitest + Supertest
+ 
 
 ## Tech Stack
 
@@ -39,8 +39,8 @@ documentation, and Docker-based local development.
 | Auth | JWT + bcrypt |
 | Validation | Zod |
 | Logging | Pino |
-| Docs | Swagger / OpenAPI |
-| Tests | Vitest + Supertest |
+| Docs | Swagger  |
+
 
 ## Architecture
 
@@ -52,7 +52,7 @@ type-based folders as the API grows.
 ## Quick Start
 
 ```bash
-git clone https://github.com/yourusername/taskflow-api
+git clone https://github.com/MunawarJamil/taskflow-api
 cd taskflow-api
 cp .env.example .env
 docker-compose up -d
@@ -60,9 +60,7 @@ npm install
 npx prisma migrate dev
 npm run dev
 ```
-
-API runs at http://localhost:3000
-Docs at http://localhost:3000/docs
+ 
 
 
 
