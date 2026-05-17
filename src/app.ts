@@ -9,7 +9,12 @@ import { notFound } from "./middleware/notFound.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { ok } from "./utils/ApiResponse.js";
 import authRoutes from "./modules/auth/auth.routes.js";
-
+import workspaceRoutes from "./modules/workspace/workspace.routes.js";
+import {
+  projectRouter,
+  workspaceProjectRouter,
+} from "./modules/project/project.routes.js";
+import { projectTaskRouter, taskRouter } from "./modules/task/task.routes.js";
 export const createApp = (): Application => {
   const app = express();
 
@@ -37,6 +42,14 @@ export const createApp = (): Application => {
   });
 
   app.use("/api/v1/auth", authRoutes);
+  app.use("/api/v1/workspaces", workspaceRoutes);
+
+  app.use("/api/v1/workspaces/:id/projects", workspaceProjectRouter);
+  app.use("/api/v1/projects", projectRouter);
+
+  app.use("/api/v1/projects/:id/tasks", projectTaskRouter);
+  app.use("/api/v1/tasks", taskRouter);
+
   app.use(notFound);
   app.use(errorMiddleware);
   return app;

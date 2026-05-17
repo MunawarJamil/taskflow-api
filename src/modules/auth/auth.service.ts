@@ -110,11 +110,25 @@ export const refreshTokens = async (token: string) => {
     include: { user: true },
   });
 
-  // 3. Check record exists, matches, and is not revoked
+  // 3. Reuse detection: a valid JWT pointing at a revoked DB record
+  // means an old refresh token was replayed — assume token theft and
+  // revoke every active refresh token for this user.
+  if (
+    tokenRecord &&
+    tokenRecord.token === token &&
+    tokenRecord.revokedAt !== null
+  ) {
+    await prisma.refreshToken.updateMany({
+      where: { userId: tokenRecord.userId, revokedAt: null },
+      data: { revokedAt: new Date() },
+    });
+    throw ApiError.unauthorized('Refresh token reuse detected — all sessions revoked');
+  }
+
+  // 4. Check record exists, matches, and is not expired
   if (
     !tokenRecord ||
     tokenRecord.token !== token ||
-    tokenRecord.revokedAt !== null ||
     tokenRecord.expiresAt < new Date()
   ) {
     throw ApiError.unauthorized('Refresh token is invalid or expired');

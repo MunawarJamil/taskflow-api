@@ -34,3 +34,5 @@ export const authenticate = (
     throw ApiError.unauthorized("Invalid or expired access token");
   }
 };
+
+// export const requireAuth = [authenticate];
